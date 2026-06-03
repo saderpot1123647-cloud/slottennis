@@ -547,128 +547,6 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
   </div>
 </section>
 
-<!-- RESEARCH / STATS -->
-<section class="research" id="research">
-  <div class="section-label">Исследование рынка — 57 респондентов</div>
-  <h2>Гипотезы <em>подтверждены</em></h2>
-  <div class="research-grid reveal">
-    <div class="research-card">
-      <div class="research-big">100%</div>
-      <div class="research-label">сталкивались с отсутствием свободных слотов в нужный день</div>
-      <div class="research-source">Гипотеза Г1 ✓</div>
-    </div>
-    <div class="research-card">
-      <div class="research-big">74%</div>
-      <div class="research-label">хотя бы раз оплатили корт, но не смогли прийти</div>
-      <div class="research-source">Гипотеза Г4 ✓</div>
-    </div>
-    <div class="research-card">
-      <div class="research-big">56%</div>
-      <div class="research-label">в такой ситуации просто теряли деньги без возврата</div>
-      <div class="research-source">Основная боль</div>
-    </div>
-    <div class="research-card">
-      <div class="research-big">51%</div>
-      <div class="research-label">уже передавали бронь знакомому — поведение уже существует</div>
-      <div class="research-source">Гипотеза Г5 ✓</div>
-    </div>
-    <div class="research-card">
-      <div class="research-big">45%</div>
-      <div class="research-label">уже искали слот у других людей — механика продукта знакома</div>
-      <div class="research-source">Гипотеза Г5 ✓</div>
-    </div>
-    <div class="research-card">
-      <div class="research-big">44%</div>
-      <div class="research-label">используют Telegram-чаты для поиска кортов</div>
-      <div class="research-source">Гипотеза Г6 ✓</div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-  <div class="section-label">Модель монетизации</div>
-  <h2>Три источника <em>дохода</em></h2>
-  <p style="color:var(--muted);font-size:15px;margin:12px 0 40px">Двусторонний маркетплейс — комиссия берётся с обеих сторон сделки</p>
-
-  <!-- Tier 1 & 2: commission table -->
-  <div class="pricing-tiers reveal">
-    <div class="pricing-tier-label">1 — Комиссия за сделку</div>
-    <div class="pricing-two-col">
-      <div class="price-card">
-        <h4>ПОКУПАТЕЛЬ</h4>
-        <div class="price-amount">3% <small>от суммы слота</small></div>
-        <p class="price-desc">Платит за проверку корта командой СлотТеннис, гарантию сделки и возврат в случае проблем с купленным слотом.</p>
-        <div class="price-pros">
-          <div class="price-pro">Проверка брони вручную</div>
-          <div class="price-pro">Гарантия входа на корт</div>
-          <div class="price-pro">Возврат при проблемах</div>
-        </div>
-      </div>
-      <div class="price-card featured">
-        <h4>ПРОДАВЕЦ</h4>
-        <div class="price-amount">5% <small>от суммы слота</small></div>
-        <p class="price-desc">Платит за размещение слота, поиск покупателя и гарантию безопасности сделки со стороны платформы.</p>
-        <div class="price-pros">
-          <div class="price-pro">Публикация в каталоге</div>
-          <div class="price-pro">Поиск покупателя</div>
-          <div class="price-pro">Безопасный расчёт</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="pricing-tier-label" style="margin-top:32px;">2 — Фиксированный сервисный сбор</div>
-    <div class="pricing-fixed-row reveal">
-      <div class="pricing-fixed-card">
-        <div class="fixed-who">Покупатель</div>
-        <div class="fixed-amount">0 ₽</div>
-        <div class="fixed-desc">Фиксированный сбор не взимается</div>
-      </div>
-      <div class="pricing-fixed-arrow">+</div>
-      <div class="pricing-fixed-card highlight">
-        <div class="fixed-who">Продавец</div>
-        <div class="fixed-amount">149 ₽</div>
-        <div class="fixed-desc">Покрывает операционные расходы платформы на проведение сделки</div>
-      </div>
-    </div>
-
-    <div class="pricing-tier-label" style="margin-top:32px;">3 — Freemium: продвижение объявления</div>
-    <div class="freemium-card reveal">
-      <div class="freemium-left">
-        <div class="freemium-badge">⚡ ТОП</div>
-        <h4>Поднять объявление в топ</h4>
-        <p>Слот выводится на верхнюю строчку каталога — больше внимания покупателей. Особенно полезно, если до начала аренды осталось мало времени.</p>
-        <div class="freemium-who">Только для продавцов</div>
-      </div>
-      <div class="freemium-right">
-        <div class="freemium-price">99 ₽</div>
-        <div class="freemium-period">4 часа в топе</div>
-        <button class="btn-primary" style="margin-top:20px;font-size:14px;padding:12px 24px;" onclick="openFreemiumModal()">⚡ Поднять в топ</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Example calculation -->
-  <div class="pricing-example reveal">
-    <div class="section-label" style="margin-bottom:16px;">Пример расчёта</div>
-    <div class="calc-row">
-      <div class="calc-label">Слот стоимостью</div>
-      <div class="calc-value">5 000 ₽</div>
-    </div>
-    <div class="calc-row">
-      <div class="calc-label">Покупатель платит (5 000 + 3%)</div>
-      <div class="calc-value">5 150 ₽</div>
-    </div>
-    <div class="calc-row">
-      <div class="calc-label">Продавец получает (5 000 − 5% − 149 ₽)</div>
-      <div class="calc-value highlight-val">4 601 ₽</div>
-    </div>
-    <div class="calc-row total-row">
-      <div class="calc-label">Доход платформы со сделки</div>
-      <div class="calc-value green-val">549 ₽</div>
-    </div>
-  </div>
-</section>
 
 <!-- CLUBS DETAILED -->
 <section id="clubs">
@@ -923,8 +801,6 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
     <a onclick="navTo('how')">Как работает</a>
     <a onclick="navTo('safety')">Безопасность</a>
     <a onclick="navTo('clubs')">Клубы</a>
-    <a onclick="navTo('research')">Исследование</a>
-    <a onclick="navTo('pricing')">Комиссия</a>
     <a onclick="navTo('refund')">Гарантии</a>
   </div>
   <div class="footer-note">© 2026 СлотТеннис · Только Москва · Только теннис</div>
