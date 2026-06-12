@@ -1172,6 +1172,8 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
 </div><!-- /page-sell -->
 <!-- ════════════════ BUY MODAL ════════════════ -->
 <style>
+.modal-tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-size: 14px; font-weight: 600; padding: 8px 16px; cursor: pointer; font-family: 'Golos Text', sans-serif; transition: color .2s, border-color .2s; margin-bottom: -1px; }
+.modal-tab.active { color: var(--green); border-bottom-color: var(--green); }
 .pay-header { margin-bottom: 20px; }
 .pay-header h3 { font-family: 'Unbounded', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
 .pay-header .pay-sub { font-size: 14px; color: var(--muted); }
@@ -1213,23 +1215,40 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
 
     <!-- ШАГ 1: Детали слота -->
     <div id="modal-buy-view">
-      <h3 id="modal-title-buy">Купить слот</h3>
-      <div class="modal-club-name" id="m-club">Newton Arena</div>
-      <div class="modal-info-row"><span class="key">Дата</span><span class="val" id="m-date">—</span></div>
-      <div class="modal-info-row"><span class="key">Время</span><span class="val" id="m-time">—</span></div>
-      <div class="modal-info-row"><span class="key">Длительность</span><span class="val" id="m-duration">—</span></div>
-      <div class="modal-info-row"><span class="key">Покрытие</span><span class="val" id="m-surface">—</span></div>
-      <div class="modal-info-row"><span class="key">Статус</span><span class="val" style="color:var(--green)">✅ Проверен</span></div>
-      <div class="modal-info-row"><span class="key">Передача</span><span class="val" id="m-transfer">—</span></div>
-      <div class="modal-price-box">
-        <div><div style="font-size:12px;color:var(--muted)">Цена слота</div><div style="font-size:13px;color:var(--muted);text-decoration:line-through;margin-top:2px;" id="m-orig">—</div></div>
+      <h3 id="modal-title-buy" id="m-club">—</h3>
+      <div style="font-size:14px;color:var(--muted);margin:4px 0 20px;" id="m-datetime">—</div>
+
+      <div class="modal-price-box" style="margin-bottom:20px;">
+        <div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:4px;">Цена слота</div>
+          <div style="font-size:13px;color:var(--muted);text-decoration:line-through;" id="m-orig">—</div>
+        </div>
         <div class="total" id="m-price">—</div>
       </div>
-      <div class="modal-instruction">
-        <strong>Что происходит после оплаты:</strong><br>
-        Ты получишь точное имя брони, номер корта и что сказать на ресепшене. Продавец подтверждает передачу. Деньги продавцу — только после твоего успешного входа на корт.
+
+      <!-- Табы -->
+      <div style="display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;gap:0;">
+        <button class="modal-tab active" onclick="switchTab('details',this)">Детали</button>
+        <button class="modal-tab" onclick="switchTab('guarantee',this)">Гарантии</button>
       </div>
-      <button class="modal-btn" onclick="showPaymentView()">Перейти к оплате →</button>
+
+      <div id="tab-details">
+        <div class="modal-info-row"><span class="key">Длительность</span><span class="val" id="m-duration">—</span></div>
+        <div class="modal-info-row"><span class="key">Покрытие</span><span class="val" id="m-surface">—</span></div>
+        <div class="modal-info-row"><span class="key">Статус</span><span class="val" style="color:var(--green)">✅ Проверен</span></div>
+        <div class="modal-info-row"><span class="key">Передача</span><span class="val" id="m-transfer">—</span></div>
+      </div>
+
+      <div id="tab-guarantee" style="display:none;">
+        <div class="modal-instruction" style="margin:0;">
+          <strong>После оплаты:</strong><br>
+          Получишь точное имя брони, номер корта и что сказать на ресепшене.<br><br>
+          <strong>Гарантия возврата:</strong><br>
+          Если клуб не пустит — полный возврат. Деньги продавцу только после твоего входа на корт.
+        </div>
+      </div>
+
+      <button class="modal-btn" style="margin-top:20px;" onclick="showPaymentView()">Оплатить — <span id="m-price-label">—</span></button>
       <button class="modal-btn-secondary" onclick="closeModal()">Отмена</button>
     </div>
 
@@ -1425,9 +1444,8 @@ let currentSlot = null;
 function openBuyModal(id) {
   currentSlot = SLOTS.find(s => s.id === id);
   if (!currentSlot) return;
-  document.getElementById('m-club').textContent = currentSlot.club;
-  document.getElementById('m-date').textContent = currentSlot.date;
-  document.getElementById('m-time').textContent = currentSlot.time;
+  document.getElementById('modal-title-buy').textContent = currentSlot.club;
+  document.getElementById('m-datetime').textContent = currentSlot.date + ' · ' + currentSlot.time + ' · ' + currentSlot.duration;
   document.getElementById('m-duration').textContent = currentSlot.duration;
   document.getElementById('m-surface').textContent = currentSlot.surface;
   document.getElementById('m-transfer').textContent = currentSlot.transfer;
@@ -1435,11 +1453,20 @@ function openBuyModal(id) {
   const commission = Math.round(currentSlot.salePrice * 0.03);
   const total = currentSlot.salePrice + commission;
   document.getElementById('m-price').textContent = total.toLocaleString('ru') + ' ₽';
+  document.getElementById('m-price-label').textContent = total.toLocaleString('ru') + ' ₽';
   document.getElementById('modal-buy-view').style.display = 'block';
   document.getElementById('modal-payment-view').style.display = 'none';
   document.getElementById('modal-success-view').style.display = 'none';
+  switchTab('details', document.querySelector('.modal-tab'));
   document.getElementById('buy-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function switchTab(name, btn) {
+  document.getElementById('tab-details').style.display = name === 'details' ? 'block' : 'none';
+  document.getElementById('tab-guarantee').style.display = name === 'guarantee' ? 'block' : 'none';
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
 }
 
 function closeModal() {
