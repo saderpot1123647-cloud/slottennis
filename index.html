@@ -1435,8 +1435,8 @@ function openBuyModal(id) {
   const commission = Math.round(currentSlot.salePrice * 0.03);
   const total = currentSlot.salePrice + commission;
   document.getElementById('m-price').textContent = total.toLocaleString('ru') + ' ₽';
-  document.getElementById('m-price-btn').textContent = total.toLocaleString('ru') + ' ₽';
   document.getElementById('modal-buy-view').style.display = 'block';
+  document.getElementById('modal-payment-view').style.display = 'none';
   document.getElementById('modal-success-view').style.display = 'none';
   document.getElementById('buy-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
