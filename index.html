@@ -468,12 +468,12 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
 
 <!-- NAV -->
 <nav>
-  <div class="logo" onclick="showPage('main')">Слот<span>Теннис</span></div>
+  <div class="logo" onclick="showPage('main'); showTab('slots');">Слот<span>Теннис</span></div>
   <ul>
-    <li><a href="#" onclick="navTo('how'); return false;">Как работает</a></li>
-    <li><a href="#" onclick="navTo('slots'); return false;">Слоты</a></li>
-    <li><a href="#" onclick="navTo('clubs'); return false;">Клубы</a></li>
-    <li><a href="#" onclick="navTo('refund'); return false;">Гарантии</a></li>
+    <li><a href="#" id="nav-how"    onclick="showTab('how'); return false;">Как работает</a></li>
+    <li><a href="#" id="nav-slots"  onclick="showTab('slots'); return false;">Слоты</a></li>
+    <li><a href="#" id="nav-clubs"  onclick="showTab('clubs'); return false;">Клубы</a></li>
+    <li><a href="#" id="nav-refund" onclick="showTab('refund'); return false;">Гарантии</a></li>
     <li><a href="#" class="nav-cta" onclick="showPage('sell'); return false;">Продать слот</a></li>
   </ul>
   <div class="burger" onclick="toggleBurger()" id="burger-btn">
@@ -481,15 +481,18 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
   </div>
 </nav>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#" onclick="navTo('how'); closeBurger(); return false;">Как работает</a>
-  <a href="#" onclick="navTo('slots'); closeBurger(); return false;">Слоты</a>
-  <a href="#" onclick="navTo('clubs'); closeBurger(); return false;">Клубы</a>
-  <a href="#" onclick="navTo('refund'); closeBurger(); return false;">Гарантии</a>
+  <a href="#" onclick="showTab('how'); closeBurger(); return false;">Как работает</a>
+  <a href="#" onclick="showTab('slots'); closeBurger(); return false;">Слоты</a>
+  <a href="#" onclick="showTab('clubs'); closeBurger(); return false;">Клубы</a>
+  <a href="#" onclick="showTab('refund'); closeBurger(); return false;">Гарантии</a>
   <a href="#" onclick="showPage('sell'); closeBurger(); return false;" style="color:var(--green);font-weight:700;">Продать слот →</a>
 </div>
 
 <!-- ══════════════════════════════════ MAIN PAGE ══════════════════════════════════ -->
 <div id="page-main" class="page active">
+
+<!-- VIEW: СЛОТЫ (default) -->
+<div id="view-slots" class="tab-view active">
 
 <!-- TICKER -->
 <div class="ticker" style="margin-top:72px;">
@@ -518,18 +521,6 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
     <div style="cursor:pointer;" onclick="showPage('sell')" title="Продать слот"><div class="stat-num">3%</div><div class="stat-label">комиссия с покупателя<br><span style="color:var(--green);font-size:11px;">Продать слот →</span></div></div>
   </div>
 </section>
-
-<!-- NOTIFY STRIP -->
-<div style="background:rgba(200,245,66,.07);border-top:1px solid rgba(200,245,66,.15);border-bottom:1px solid rgba(200,245,66,.15);padding:18px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-  <div style="display:flex;align-items:center;gap:12px;">
-    <span style="font-size:22px;">🔔</span>
-    <div>
-      <div style="font-weight:700;font-size:15px;color:var(--text);">Нужного слота пока нет?</div>
-      <div style="font-size:13px;color:var(--muted);">Подпишись на уведомления — пришлём как только появится подходящий корт</div>
-    </div>
-  </div>
-  <button class="btn-primary" style="padding:12px 24px;font-size:14px;" onclick="openNotifModal()">🔔 Подписаться</button>
-</div>
 
 <!-- HOW IT WORKS -->
 <section class="how" id="how">
@@ -608,6 +599,10 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
   </div>
 </section>
 
+</div><!-- /view-slots -->
+
+<!-- VIEW: КАК РАБОТАЕТ -->
+<div id="view-how" class="tab-view">
 <!-- PROBLEMS -->
 <section class="problems" id="problems">
   <div class="section-label">Проблема</div>
@@ -663,7 +658,10 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
   </div>
 </section>
 
+</div><!-- /view-how -->
 
+<!-- VIEW: КЛУБЫ -->
+<div id="view-clubs" class="tab-view">
 <!-- WHO WE ARE -->
 <section class="team-section" id="about">
   <div class="section-label">Кто мы</div>
@@ -800,6 +798,10 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
   </div>
 </section>
 
+</div><!-- /view-clubs -->
+
+<!-- VIEW: ГАРАНТИИ -->
+<div id="view-refund" class="tab-view">
 <!-- STATUSES -->
 <section class="statuses-section" id="statuses">
   <div class="section-label">Статусы слотов</div>
@@ -990,6 +992,8 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
     <button class="btn-secondary" onclick="showPage('sell')">Продать мой слот →</button>
   </div>
 </section>
+
+</div><!-- /view-refund -->
 
 <!-- FOOTER -->
 <footer>
@@ -1191,6 +1195,11 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
 </div><!-- /page-sell -->
 <!-- ════════════════ BUY MODAL ════════════════ -->
 <style>
+/* TAB VIEWS */
+.tab-view { display: none; }
+.tab-view.active { display: block; }
+nav ul a.nav-active { color: var(--green) !important; }
+
 .modal-tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-size: 14px; font-weight: 600; padding: 8px 16px; cursor: pointer; font-family: 'Golos Text', sans-serif; transition: color .2s, border-color .2s; margin-bottom: -1px; }
 .modal-tab.active { color: var(--green); border-bottom-color: var(--green); }
 .pay-header { margin-bottom: 20px; }
@@ -1551,11 +1560,26 @@ function confirmPurchase() {
 // ═══════════════════════════════════════
 //  PAGE ROUTING
 // ═══════════════════════════════════════
+const TAB_MAP = { how:'view-how', slots:'view-slots', clubs:'view-clubs', refund:'view-refund' };
+
+function showTab(name) {
+  document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+  const viewId = TAB_MAP[name] || 'view-slots';
+  const view = document.getElementById(viewId);
+  if (view) view.classList.add('active');
+  document.querySelectorAll('nav ul a[id^="nav-"]').forEach(a => a.classList.remove('nav-active'));
+  const navEl = document.getElementById('nav-' + name);
+  if (navEl) navEl.classList.add('nav-active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  setTimeout(() => initReveal(), 100);
+}
+
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
   if (name === 'main') {
+    showTab('slots');
     setTimeout(() => initReveal(), 100);
   }
 }
