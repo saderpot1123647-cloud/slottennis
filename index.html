@@ -1171,9 +1171,47 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
   </div>
 </div><!-- /page-sell -->
 <!-- ════════════════ BUY MODAL ════════════════ -->
+<style>
+.pay-header { margin-bottom: 20px; }
+.pay-header h3 { font-family: 'Unbounded', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+.pay-header .pay-sub { font-size: 14px; color: var(--muted); }
+.pay-price-box { background: var(--mid); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.pay-price-left .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.pay-price-left .amount { font-family: 'Unbounded', sans-serif; font-size: 26px; font-weight: 700; color: var(--text); }
+.pay-price-right { text-align: right; }
+.pay-price-right .fee-label { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.pay-price-right .fee-amount { font-family: 'Unbounded', sans-serif; font-size: 18px; font-weight: 700; color: var(--muted); }
+.pay-methods-label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+.pay-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.pay-method { background: var(--card); border: 2px solid var(--border); border-radius: 12px; padding: 18px 12px; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+.pay-method.active { border-color: var(--green); background: rgba(200,245,66,.06); }
+.pay-method .pm-icon { font-size: 28px; margin-bottom: 8px; }
+.pay-method .pm-name { font-size: 14px; font-weight: 700; color: var(--text); }
+.pay-qr { background: #fff; border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 20px; }
+.pay-qr img { width: 200px; height: 200px; display: block; margin: 0 auto; }
+.pay-qr .qr-hint { font-size: 13px; color: #333; margin-top: 10px; font-weight: 600; }
+.pay-card-fields { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+.pay-card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.pay-card-fields input { width: 100%; background: var(--mid); border: 1px solid var(--border); color: var(--text); font-family: 'Golos Text', sans-serif; font-size: 15px; padding: 13px 16px; border-radius: 8px; outline: none; transition: border-color .2s; }
+.pay-card-fields input:focus { border-color: var(--green); }
+.pay-card-fields input::placeholder { color: var(--muted); }
+.pay-btn { width: 100%; background: #0E0E0E; color: #fff; border: 2px solid var(--green); padding: 16px; border-radius: 10px; font-weight: 700; font-size: 16px; cursor: pointer; font-family: 'Golos Text', sans-serif; transition: background .2s, transform .1s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.pay-btn:hover { background: rgba(200,245,66,.1); transform: scale(0.99); }
+.pay-back { background: none; border: none; color: var(--muted); font-size: 13px; cursor: pointer; margin-top: 12px; width: 100%; font-family: 'Golos Text', sans-serif; padding: 8px; }
+.pay-back:hover { color: var(--text); }
+.pay-email-field { margin-bottom: 20px; }
+.pay-email-field label { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 8px; display: block; }
+.pay-email-field label span { color: var(--accent2); }
+.pay-email-field input { width: 100%; background: var(--mid); border: 1px solid var(--border); color: var(--text); font-family: 'Golos Text', sans-serif; font-size: 15px; padding: 13px 16px; border-radius: 8px; outline: none; transition: border-color .2s; }
+.pay-email-field input:focus { border-color: var(--green); }
+.pay-email-field input::placeholder { color: var(--muted); }
+</style>
+
 <div class="modal-overlay" id="buy-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-buy" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">✕</button>
+
+    <!-- ШАГ 1: Детали слота -->
     <div id="modal-buy-view">
       <h3 id="modal-title-buy">Купить слот</h3>
       <div class="modal-club-name" id="m-club">Newton Arena</div>
@@ -1191,14 +1229,78 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
         <strong>Что происходит после оплаты:</strong><br>
         Ты получишь точное имя брони, номер корта и что сказать на ресепшене. Продавец подтверждает передачу. Деньги продавцу — только после твоего успешного входа на корт.
       </div>
-      <button class="modal-btn" onclick="confirmPurchase()">Оплатить — <span id="m-price-btn">—</span></button>
+      <button class="modal-btn" onclick="showPaymentView()">Перейти к оплате →</button>
       <button class="modal-btn-secondary" onclick="closeModal()">Отмена</button>
     </div>
+
+    <!-- ШАГ 2: Оплата -->
+    <div id="modal-payment-view" style="display:none;">
+      <div class="pay-header">
+        <h3>Оплата слота</h3>
+        <div class="pay-sub" id="pay-slot-info">—</div>
+      </div>
+      <div class="pay-price-box">
+        <div class="pay-price-left">
+          <div class="label">Стоимость слота</div>
+          <div class="amount" id="pay-slot-price">—</div>
+        </div>
+        <div class="pay-price-right">
+          <div class="fee-label">+ 3% платформы</div>
+          <div class="fee-amount" id="pay-fee">—</div>
+        </div>
+      </div>
+
+      <div class="pay-methods-label">Способ оплаты</div>
+      <div class="pay-methods">
+        <div class="pay-method active" id="pm-sbp" onclick="selectPayMethod('sbp')">
+          <div class="pm-icon">⚡</div>
+          <div class="pm-name">СБП</div>
+        </div>
+        <div class="pay-method" id="pm-card" onclick="selectPayMethod('card')">
+          <div class="pm-icon">💳</div>
+          <div class="pm-name">Карта</div>
+        </div>
+      </div>
+
+      <!-- СБП -->
+      <div id="pay-sbp-view">
+        <div class="pay-email-field">
+          <label>Email <span>*</span></label>
+          <input type="email" id="pay-email" placeholder="your@email.com">
+        </div>
+        <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:10px;">Отсканируй QR-код в твоём банке</div>
+        <div class="pay-qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=000000&bgcolor=ffffff&data=https://slottennis.ru/pay" alt="QR-код для оплаты">
+          <div class="qr-hint">СБП · Открой банк → Оплата по QR</div>
+        </div>
+      </div>
+
+      <!-- Карта -->
+      <div id="pay-card-view" style="display:none;">
+        <div class="pay-email-field">
+          <label>Email <span>*</span></label>
+          <input type="email" id="pay-email-card" placeholder="your@email.com">
+        </div>
+        <div class="pay-card-fields">
+          <input type="text" placeholder="Номер карты" maxlength="19" oninput="formatCardNum(this)">
+          <div class="pay-card-row">
+            <input type="text" placeholder="ММ/ГГ" maxlength="5" oninput="formatExpiry(this)">
+            <input type="text" placeholder="CVV" maxlength="3" inputmode="numeric">
+          </div>
+          <input type="text" placeholder="Имя держателя карты">
+        </div>
+      </div>
+
+      <button class="pay-btn" onclick="confirmPurchase()">✓ Я оплатил</button>
+      <button class="pay-back" onclick="backToBuyView()">← Назад к деталям слота</button>
+    </div>
+
+    <!-- ШАГ 3: Успех -->
     <div id="modal-success-view" style="display:none;">
       <div class="modal-success">
         <div class="icon">🎾</div>
         <h4>Слот забронирован!</h4>
-        <p>Инструкция для входа отправлена. Покажи её администратору клуба при входе.</p>
+        <p>Инструкция для входа отправлена на email. Покажи её администратору клуба при входе.</p>
         <div class="ticket-id" id="m-ticket">TKT-????</div>
         <br><br>
         <p style="font-size:13px;color:var(--muted)">При проблемах — пиши в поддержку @slottennis_support</p>
@@ -1343,10 +1445,49 @@ function openBuyModal(id) {
 function closeModal() {
   document.getElementById('buy-modal').classList.remove('open');
   document.body.style.overflow = '';
+  // reset views
+  setTimeout(() => {
+    document.getElementById('modal-buy-view').style.display = 'block';
+    document.getElementById('modal-payment-view').style.display = 'none';
+    document.getElementById('modal-success-view').style.display = 'none';
+  }, 300);
+}
+
+function showPaymentView() {
+  if (!currentSlot) return;
+  const commission = Math.round(currentSlot.salePrice * 0.03);
+  document.getElementById('pay-slot-info').textContent = currentSlot.club + ' · ' + currentSlot.date + ' ' + currentSlot.time;
+  document.getElementById('pay-slot-price').textContent = currentSlot.salePrice.toLocaleString('ru') + ' ₽';
+  document.getElementById('pay-fee').textContent = commission.toLocaleString('ru') + ' ₽';
+  document.getElementById('modal-buy-view').style.display = 'none';
+  document.getElementById('modal-payment-view').style.display = 'block';
+}
+
+function backToBuyView() {
+  document.getElementById('modal-payment-view').style.display = 'none';
+  document.getElementById('modal-buy-view').style.display = 'block';
+}
+
+function selectPayMethod(method) {
+  document.getElementById('pm-sbp').classList.toggle('active', method === 'sbp');
+  document.getElementById('pm-card').classList.toggle('active', method === 'card');
+  document.getElementById('pay-sbp-view').style.display = method === 'sbp' ? 'block' : 'none';
+  document.getElementById('pay-card-view').style.display = method === 'card' ? 'block' : 'none';
+}
+
+function formatCardNum(el) {
+  let v = el.value.replace(/\D/g,'').substring(0,16);
+  el.value = v.replace(/(.{4})/g,'$1 ').trim();
+}
+
+function formatExpiry(el) {
+  let v = el.value.replace(/\D/g,'').substring(0,4);
+  if (v.length >= 2) v = v.substring(0,2) + '/' + v.substring(2);
+  el.value = v;
 }
 
 function confirmPurchase() {
-  document.getElementById('modal-buy-view').style.display = 'none';
+  document.getElementById('modal-payment-view').style.display = 'none';
   document.getElementById('modal-success-view').style.display = 'block';
   document.getElementById('m-ticket').textContent = 'TKT-' + Math.floor(1000 + Math.random()*9000);
 }
