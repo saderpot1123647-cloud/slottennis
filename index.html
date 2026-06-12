@@ -580,6 +580,16 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
       <option value="Tennis77">Tennis77</option>
       <option value="Динамо-Центр">Динамо-Центр</option>
       <option value="Городской ТК">Городской ТК</option>
+      <option value="Лужники">Лужники</option>
+      <option value="Будь Здоров">Будь Здоров</option>
+      <option value="Теннис-Арт">Теннис-Арт</option>
+      <option value="Мегасорт-теннис">Мегасорт-теннис</option>
+      <option value="Галерея">Галерея</option>
+      <option value="Падл Хаб Нагатинская">Падл Хаб Нагатинская</option>
+      <option value="Нескучный сад">Нескучный сад</option>
+      <option value="Спортстанция Бутово">Спортстанция Бутово</option>
+      <option value="TennisGeo">TennisGeo</option>
+      <option value="Lawn Tennis Club">Lawn Tennis Club</option>
     </select>
     <select class="filter-select" id="transfer-filter" onchange="filterByTransfer(this.value)">
       <option value="">Передача: любая</option>
@@ -1027,7 +1037,16 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
             <option>ТЦС «Спартак»</option>
             <option>Динамо-Центр</option>
             <option>Городской теннисный клуб</option>
-            <option>ПадлХАБ Нагатинская Премиум</option>
+            <option>Лужники</option>
+            <option>Будь Здоров</option>
+            <option>Теннис-Арт</option>
+            <option>Мегасорт-теннис</option>
+            <option>Галерея</option>
+            <option>Падл Хаб Нагатинская</option>
+            <option>Нескучный сад</option>
+            <option>Спортстанция Бутово</option>
+            <option>TennisGeo</option>
+            <option>Lawn Tennis Club</option>
             <option>Другой клуб</option>
           </select>
           <div class="club-hint-box" id="club-hint"></div>
@@ -1336,12 +1355,22 @@ footer { border-top: 1px solid var(--border); padding: 40px 48px; display: flex;
 //  DATA
 // ═══════════════════════════════════════
 const SLOTS = [
-  { id:1, club:'Newton Arena', date:'Сегодня', time:'19:00', duration:'1 час', surface:'Хард', origPrice:5400, salePrice:4600, transfer:'Замена имени подтверждена', transferType:'confirmed', deadline:'До 17:30', filter:['today','hard','1h','evening'] },
-  { id:2, club:'ТЦС «Спартак»', date:'Сегодня', time:'21:00', duration:'1.5 часа', surface:'Хард', origPrice:7200, salePrice:5800, transfer:'Через звонок продавца в клуб', transferType:'call', deadline:'До 19:00', filter:['today','hard','1.5h','evening'] },
-  { id:3, club:'Tennis77', date:'Завтра', time:'8:00', duration:'1 час', surface:'Грунт', origPrice:3800, salePrice:3200, transfer:'Замена имени подтверждена', transferType:'confirmed', deadline:'До 18:00 сегодня', filter:['tomorrow','clay','1h','morning'] },
-  { id:4, club:'Динамо-Центр', date:'Завтра', time:'10:00', duration:'2 часа', surface:'Хард', origPrice:11000, salePrice:8900, transfer:'Через звонок продавца в клуб', transferType:'call', deadline:'До 20:00 сегодня', filter:['tomorrow','hard','2h','morning'] },
-  { id:5, club:'Городской ТК', date:'Сегодня', time:'20:00', duration:'1 час', surface:'Грунт', origPrice:4200, salePrice:3500, transfer:'Замена имени подтверждена', transferType:'confirmed', deadline:'До 18:30', filter:['today','clay','1h','evening'] },
-  { id:6, club:'Newton Arena', date:'Послезавтра', time:'7:00', duration:'1.5 часа', surface:'Хард', origPrice:6300, salePrice:5200, transfer:'Замена имени подтверждена', transferType:'confirmed', deadline:'До 19:00 завтра', filter:['hard','1.5h','morning'] },
+  { id:1,  club:'Newton Arena',           date:'Сегодня',     time:'19:00', duration:'1 час',    surface:'Хард', origPrice:5400,  salePrice:4600, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 17:30',           filter:['today','hard','1h','evening'] },
+  { id:2,  club:'ТЦС «Спартак»',         date:'Сегодня',     time:'21:00', duration:'1.5 часа', surface:'Хард', origPrice:7200,  salePrice:5800, transfer:'Через звонок продавца в клуб',   transferType:'call',      deadline:'До 19:00',           filter:['today','hard','1.5h','evening'] },
+  { id:3,  club:'Tennis77',              date:'Завтра',      time:'8:00',  duration:'1 час',    surface:'Хард', origPrice:3800,  salePrice:3200, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 18:00 сегодня',   filter:['tomorrow','hard','1h','morning'] },
+  { id:4,  club:'Динамо-Центр',          date:'Завтра',      time:'10:00', duration:'2 часа',   surface:'Хард', origPrice:11000, salePrice:8900, transfer:'Через звонок продавца в клуб',   transferType:'call',      deadline:'До 20:00 сегодня',   filter:['tomorrow','hard','2h','morning'] },
+  { id:5,  club:'Городской ТК',          date:'Сегодня',     time:'20:00', duration:'1 час',    surface:'Хард', origPrice:4200,  salePrice:3500, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 18:30',           filter:['today','hard','1h','evening'] },
+  { id:6,  club:'Newton Arena',          date:'Послезавтра', time:'7:00',  duration:'1.5 часа', surface:'Хард', origPrice:6300,  salePrice:5200, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 19:00 завтра',    filter:['hard','1.5h','morning'] },
+  { id:7,  club:'Лужники',              date:'Сегодня',     time:'18:00', duration:'1 час',    surface:'Хард', origPrice:6800,  salePrice:5500, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 16:30',           filter:['today','hard','1h','evening'] },
+  { id:8,  club:'Будь Здоров',          date:'Завтра',      time:'19:00', duration:'1.5 часа', surface:'Хард', origPrice:5200,  salePrice:4200, transfer:'Через звонок продавца в клуб',   transferType:'call',      deadline:'До 17:00 сегодня',   filter:['tomorrow','hard','1.5h','evening'] },
+  { id:9,  club:'Теннис-Арт',           date:'Сегодня',     time:'9:00',  duration:'1 час',    surface:'Хард', origPrice:4500,  salePrice:3800, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 7:30',            filter:['today','hard','1h','morning'] },
+  { id:10, club:'Мегасорт-теннис',      date:'Послезавтра', time:'20:00', duration:'1 час',    surface:'Хард', origPrice:3900,  salePrice:3100, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 18:00 завтра',    filter:['hard','1h','evening'] },
+  { id:11, club:'Галерея',              date:'Завтра',      time:'11:00', duration:'2 часа',   surface:'Хард', origPrice:9000,  salePrice:7200, transfer:'Через звонок продавца в клуб',   transferType:'call',      deadline:'До 9:00 сегодня',    filter:['tomorrow','hard','2h','day'] },
+  { id:12, club:'Падл Хаб Нагатинская', date:'Сегодня',     time:'21:00', duration:'1 час',    surface:'Хард', origPrice:4800,  salePrice:3900, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 19:30',           filter:['today','hard','1h','evening'] },
+  { id:13, club:'Нескучный сад',        date:'Завтра',      time:'8:00',  duration:'1.5 часа', surface:'Хард', origPrice:5600,  salePrice:4500, transfer:'Через звонок продавца в клуб',   transferType:'call',      deadline:'До 18:00 сегодня',   filter:['tomorrow','hard','1.5h','morning'] },
+  { id:14, club:'Спортстанция Бутово',  date:'Послезавтра', time:'10:00', duration:'1 час',    surface:'Хард', origPrice:3500,  salePrice:2800, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 20:00 завтра',    filter:['hard','1h','morning'] },
+  { id:15, club:'TennisGeo',            date:'Сегодня',     time:'20:30', duration:'1 час',    surface:'Хард', origPrice:5100,  salePrice:4100, transfer:'Замена имени подтверждена',       transferType:'confirmed', deadline:'До 19:00',           filter:['today','hard','1h','evening'] },
+  { id:16, club:'Lawn Tennis Club',     date:'Завтра',      time:'13:00', duration:'2 часа',   surface:'Хард', origPrice:12000, salePrice:9500, transfer:'Через звонок продавца в клуб',   transferType:'call',      deadline:'До 11:00 сегодня',   filter:['tomorrow','hard','2h','day'] },
 ];
 
 let activeFilter = 'all';
@@ -1829,6 +1858,16 @@ function submitNotif() {
             <option>Tennis77 Гольяново</option>
             <option>Динамо-Центр</option>
             <option>Городской теннисный клуб</option>
+            <option>Лужники</option>
+            <option>Будь Здоров</option>
+            <option>Теннис-Арт</option>
+            <option>Мегасорт-теннис</option>
+            <option>Галерея</option>
+            <option>Падл Хаб Нагатинская</option>
+            <option>Нескучный сад</option>
+            <option>Спортстанция Бутово</option>
+            <option>TennisGeo</option>
+            <option>Lawn Tennis Club</option>
           </select>
         </div>
         <div class="field">
